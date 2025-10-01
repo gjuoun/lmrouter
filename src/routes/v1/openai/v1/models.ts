@@ -6,6 +6,18 @@ import { Hono } from "hono";
 import type { ContextEnv } from "../../../../types/hono.js";
 import { getConfig } from "../../../../utils/config.js";
 
+interface OpenAIModel {
+  id: string;
+  object: "model";
+  created: number;
+  owned_by: string;
+}
+
+interface OpenAIModelListResponse {
+  object: "list";
+  data: OpenAIModel[];
+}
+
 const modelsRouter = new Hono<ContextEnv>();
 
 modelsRouter.get("/:model{.+}", (c) => {
@@ -33,7 +45,7 @@ modelsRouter.get("/:model{.+}", (c) => {
 
 modelsRouter.get("/", (c) => {
   const cfg = getConfig(c);
-  const models = Object.entries(cfg.models).map(([name, model]) => {
+  const models: OpenAIModel[] = Object.entries(cfg.models).map(([name, model]) => {
     return {
       id: name,
       object: "model",
@@ -42,7 +54,7 @@ modelsRouter.get("/", (c) => {
     };
   });
 
-  return c.json({
+  return c.json<OpenAIModelListResponse>({
     object: "list",
     data: models,
   });
