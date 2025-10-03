@@ -1,0 +1,44 @@
+{
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    },
+    "ignore": [
+      "**/*.{js,jsx,tsx,json,yaml,yml,md,css,html}",
+      "!**/*.ts"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "ignore": [
+      "**/*.{js,jsx,tsx,json,yaml,yml,md,css,html}",
+      "!**/*.ts"
+    ],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.ts"],
+      "linter": {
+        "enabled": true
+      },
+      "formatter": {
+        "enabled": true
+      }
+    }
+  ]
+}

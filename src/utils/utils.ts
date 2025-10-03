@@ -3,7 +3,6 @@
 
 import type { Context } from "hono";
 import { getRuntimeKey } from "hono/adapter";
-import { getConnInfo as getConnInfoWorker } from "hono/cloudflare-workers";
 import { getConnInfo as getConnInfoNode } from "@hono/node-server/conninfo";
 
 import { recordApiCall } from "./billing.js";
@@ -33,8 +32,6 @@ export const getRemoteIp = (c: Context<ContextEnv>): string | undefined => {
   switch (getRuntimeKey()) {
     case "node":
       return getConnInfoNode(c).remote.address;
-    case "workerd":
-      return getConnInfoWorker(c).remote.address;
     default:
       return;
   }

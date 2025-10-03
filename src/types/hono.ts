@@ -2,7 +2,6 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import type { Session, User } from "better-auth";
-import type { KVNamespace } from "@cloudflare/workers-types";
 
 import type { LMRouterConfigModel } from "./config.js";
 import { apiKey } from "../models/billing.js";
@@ -37,10 +36,5 @@ export interface ContextEnv {
     auth?: AuthBetterAuth | AuthApiKey | AuthAccessKey | AuthByok;
     modelName?: string;
     model?: LMRouterConfigModel;
-  };
-  Bindings: {
-    LMROUTER_CONFIG?: string;
-    LMROUTER_CONFIG_KV?: KVNamespace;
-    LMROUTER_CONFIG_KV_KEY?: string;
   };
 }

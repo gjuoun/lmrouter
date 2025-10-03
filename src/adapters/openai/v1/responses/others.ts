@@ -462,7 +462,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
         };
         (
           currentResponse!.output[outputIndex] as ResponseOutputMessage
-        ).content.push(contentPartAdded.part);
+        ).content.push(contentPartAdded.part as ResponseOutputText | ResponseOutputRefusal);
         yield contentPartAdded;
       } else if (chunkType === State.SendingToolUse) {
         const outputItemAdded: ResponseStreamEvent = {

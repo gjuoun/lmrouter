@@ -12,28 +12,13 @@ import type { ContextEnv } from "../types/hono.js";
 let configCache: LMRouterConfig | null = null;
 let configCacheRaw: string | null = null;
 
-export const loadConfigFromCloudflareKV = async (
-  c: Context<ContextEnv>,
-): Promise<void> => {
-  if (!c.env.LMROUTER_CONFIG_KV || !c.env.LMROUTER_CONFIG_KV_KEY) {
-    return;
-  }
-
-  const configFromKV = await c.env.LMROUTER_CONFIG_KV.get(
-    c.env.LMROUTER_CONFIG_KV_KEY,
-  );
-  if (configFromKV && configFromKV !== configCacheRaw) {
-    configCacheRaw = configFromKV;
-    configCache = JSON.parse(configFromKV) as LMRouterConfig;
-  }
-};
 
 export const getConfig = (c?: Context<ContextEnv>): LMRouterConfig => {
   if (configCache) {
     return configCache;
   }
 
-  const configFromEnv = c?.env.LMROUTER_CONFIG ?? process.env.LMROUTER_CONFIG;
+  const configFromEnv = process.env.LMROUTER_CONFIG;
   if (configFromEnv) {
     console.log("Loading config from env...");
     configCache = yaml.parse(
