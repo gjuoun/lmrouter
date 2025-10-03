@@ -4,6 +4,7 @@
 import { getConnInfo as getConnInfoNode } from "@hono/node-server/conninfo";
 import type { Context } from "hono";
 import { getRuntimeKey } from "hono/adapter";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type {
   LMRouterConfigModel,
   LMRouterConfigModelProvider,
@@ -79,15 +80,25 @@ export const getModel = (
   return null;
 };
 
-export const iterateModelProviders = async (
+// type HttpStatusCode = 400 | 401 | 403 | 404 | 429 | 500 | 502 | 503 | 504;
+
+interface ApiError extends Error {
+  status?: ContentfulStatusCode;
+  error?: {
+    error?: { message?: string };
+    message?: string;
+  };
+}
+
+export const iterateModelProviders = async <T>(
   c: Context<ContextEnv>,
   cb: (
     providerCfg: LMRouterConfigModelProvider,
     provider: LMRouterConfigProvider,
-  ) => Promise<any>,
-): Promise<any> => {
+  ) => Promise<T>,
+): Promise<T | Response> => {
   const cfg = getConfig(c);
-  let error: any = null;
+  let error: ApiError | null = null;
 
   if (!c.var.model) {
     return c.json(
@@ -116,18 +127,19 @@ export const iterateModelProviders = async (
       return await cb(providerCfg, hydratedProvider);
     } catch (e) {
       timeKeeper.record();
+      const apiError = e as ApiError;
       await recordApiCall(
         c,
         providerCfg.provider,
-        (e as any).status ?? 500,
+        apiError.status ?? 500,
         timeKeeper.timestamps(),
         undefined,
         providerCfg.pricing,
-        (e as any).error?.error?.message ??
-          (e as any).error?.message ??
-          (e as any).message,
+        apiError.error?.error?.message ??
+          apiError.error?.message ??
+          apiError.message,
       );
-      error = e;
+      error = apiError;
       if (cfg.server.logging === "dev") {
         console.error(e);
       }
@@ -152,6 +164,6 @@ export const iterateModelProviders = async (
         message: "All providers failed to complete the request",
       },
     },
-    500,
+    500 as 500,
   );
 };
