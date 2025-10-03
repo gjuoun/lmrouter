@@ -24,12 +24,12 @@
     }
   },
   "scripts": {
-    "dev": "tsx watch src/index.ts config/config.yaml",
-    "build": "tsc",
+    "dev": "bun --watch src/index.ts config/config.yaml",
+    "build": "bun build src/index.ts --outdir=dist --target=bun",
     "start": "bun dist/index.js config/config.yaml",
     "lint": "biome check --write .",
     "auth:generate": "LMROUTER_CONFIG=$(base64 -w0 config/config.yaml) npx @better-auth/cli generate && mv auth-schema.ts src/models/auth.ts",
-    "db:generate": "NODE_OPTIONS='--import tsx' LMROUTER_CONFIG=$(base64 -w0 config/config.yaml) drizzle-kit generate",
+    "db:generate": "LMROUTER_CONFIG=$(base64 -w0 config/config.yaml) drizzle-kit generate",
     "db:migrate": "LMROUTER_CONFIG=$(base64 -w0 config/config.yaml) drizzle-kit migrate",
     "prepublishOnly": "npm run build",
     "docker:build": "docker build -t lmrouter .",
