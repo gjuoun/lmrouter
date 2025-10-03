@@ -11,7 +11,7 @@ import { OpenAIEmbeddingsOpenAIAdapter } from "./openai.js";
 
 export type OpenAIEmbeddingsAdapter = LMRouterAdapter<
   EmbeddingCreateParams,
-  {},
+  unknown,
   CreateEmbeddingResponse,
   never
 >;

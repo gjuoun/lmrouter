@@ -25,7 +25,7 @@ export class OpenAISpeechOpenAIAdapter implements OpenAISpeechAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: SpeechCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<Response> {
     const openai = this.getClient(provider);
     const speech = await openai.audio.speech.create(request);
@@ -39,7 +39,7 @@ export class OpenAISpeechOpenAIAdapter implements OpenAISpeechAdapter {
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: SpeechCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<never>> {
     throw new HTTPException(400, {
       message: "Speech API does not support streaming",

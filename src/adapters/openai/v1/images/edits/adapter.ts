@@ -14,7 +14,7 @@ import { OpenAIImageEditOpenAIAdapter } from "./openai.js";
 
 export type OpenAIImageEditAdapter = LMRouterAdapter<
   ImageEditParamsBase,
-  {},
+  unknown,
   ImagesResponse,
   ImageEditStreamEvent
 >;

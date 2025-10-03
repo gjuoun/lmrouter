@@ -31,7 +31,7 @@ export class OpenAITranslationsOpenAIAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: TranslationCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<TranslationCreateResponse | string> {
     const openai = this.getClient(provider);
     const translation = await openai.audio.translations.create(request);
@@ -47,7 +47,7 @@ export class OpenAITranslationsOpenAIAdapter
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: TranslationCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<never>> {
     throw new HTTPException(400, {
       message: "Translations API does not support streaming",

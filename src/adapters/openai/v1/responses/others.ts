@@ -560,7 +560,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
         type: "response.output_item.done" as const,
         sequence_number: sequenceNumber++,
         output_index: outputIndex,
-        item: currentResponse?.output[outputIndex],
+        item: currentResponse?.output[outputIndex]!,
       };
     };
 

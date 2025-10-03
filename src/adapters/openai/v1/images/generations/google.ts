@@ -35,7 +35,7 @@ export class OpenAIImageGenerationGoogleAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<ImagesResponse> {
     if (request.model?.startsWith("imagen")) {
       return this.sendRequestImagen(provider, request);
@@ -46,7 +46,7 @@ export class OpenAIImageGenerationGoogleAdapter
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<ImageGenStreamEvent>> {
     throw new HTTPException(400, {
       message: "Google does not support streaming",

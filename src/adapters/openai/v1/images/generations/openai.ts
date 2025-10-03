@@ -31,7 +31,7 @@ export class OpenAIImageGenerationOpenAIAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<ImagesResponse> {
     const openai = this.getClient(provider);
     const image = await openai.images.generate(request);
@@ -54,7 +54,7 @@ export class OpenAIImageGenerationOpenAIAdapter
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<ImageGenStreamEvent>> {
     const openai = this.getClient(provider);
     const stream = await openai.images.generate(request);

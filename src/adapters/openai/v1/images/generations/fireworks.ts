@@ -28,7 +28,7 @@ export class OpenAIImageGenerationFireworksAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<ImagesResponse> {
     if (request.model === "accounts/fireworks/models/flux-1-schnell-fp8") {
       return this.sendRequestFlux1SchnellFp8(provider, request);
@@ -39,7 +39,7 @@ export class OpenAIImageGenerationFireworksAdapter
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: ImageGenerateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<ImageGenStreamEvent>> {
     throw new HTTPException(400, {
       message: "Fireworks does not support streaming",

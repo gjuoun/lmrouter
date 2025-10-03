@@ -14,7 +14,7 @@ import { OpenAIImageGenerationOpenAIAdapter } from "./openai.js";
 
 export type OpenAIImageGenerationAdapter = LMRouterAdapter<
   ImageGenerateParamsBase,
-  {},
+  unknown,
   ImagesResponse,
   ImageGenStreamEvent
 >;

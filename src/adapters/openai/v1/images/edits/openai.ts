@@ -29,7 +29,7 @@ export class OpenAIImageEditOpenAIAdapter implements OpenAIImageEditAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<ImagesResponse> {
     const openai = this.getClient(provider);
     const image = await openai.images.edit(request);
@@ -52,7 +52,7 @@ export class OpenAIImageEditOpenAIAdapter implements OpenAIImageEditAdapter {
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<ImageEditStreamEvent>> {
     const openai = this.getClient(provider);
     const stream = await openai.images.edit(request);

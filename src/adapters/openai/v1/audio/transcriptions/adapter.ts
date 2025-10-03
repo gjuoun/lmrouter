@@ -12,7 +12,7 @@ import { OpenAITranscriptionsOpenAIAdapter } from "./openai.js";
 
 export type OpenAITranscriptionsAdapter = LMRouterAdapter<
   TranscriptionCreateParamsBase,
-  {},
+  unknown,
   TranscriptionCreateResponse | string,
   TranscriptionStreamEvent
 >;

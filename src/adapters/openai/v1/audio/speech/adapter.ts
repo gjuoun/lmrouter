@@ -8,7 +8,7 @@ import { OpenAISpeechOpenAIAdapter } from "./openai.js";
 
 export type OpenAISpeechAdapter = LMRouterAdapter<
   SpeechCreateParams,
-  {},
+  unknown,
   Response,
   never
 >;

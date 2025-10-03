@@ -24,7 +24,7 @@ export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<ImagesResponse> {
     const ai = new GoogleGenAI({
       apiKey: provider.api_key,
@@ -50,7 +50,7 @@ export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: ImageEditParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<ImageEditStreamEvent>> {
     throw new HTTPException(400, {
       message: "Google does not support streaming",

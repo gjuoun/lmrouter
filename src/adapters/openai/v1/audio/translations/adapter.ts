@@ -11,7 +11,7 @@ import { OpenAITranslationsOpenAIAdapter } from "./openai.js";
 
 export type OpenAITranslationsAdapter = LMRouterAdapter<
   TranslationCreateParams,
-  {},
+  unknown,
   TranslationCreateResponse | string,
   never
 >;

@@ -17,7 +17,7 @@ export class OpenAIEmbeddingsOpenAIAdapter implements OpenAIEmbeddingsAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: EmbeddingCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<CreateEmbeddingResponse> {
     const openai = new OpenAI({
       baseURL: provider.base_url,
@@ -38,7 +38,7 @@ export class OpenAIEmbeddingsOpenAIAdapter implements OpenAIEmbeddingsAdapter {
   async sendRequestStreaming(
     _provider: LMRouterConfigProvider,
     _request: EmbeddingCreateParams,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<never>> {
     throw new HTTPException(400, {
       message: "Embeddings API does not support streaming",

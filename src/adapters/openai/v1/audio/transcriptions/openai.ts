@@ -34,7 +34,7 @@ export class OpenAITranscriptionsOpenAIAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: TranscriptionCreateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<TranscriptionCreateResponse | string> {
     const openai = this.getClient(provider);
     const transcription = (await openai.audio.transcriptions.create(
@@ -75,7 +75,7 @@ export class OpenAITranscriptionsOpenAIAdapter
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: TranscriptionCreateParamsBase,
-    _options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<TranscriptionStreamEvent>> {
     const openai = this.getClient(provider);
     const transcription = await openai.audio.transcriptions.create(
