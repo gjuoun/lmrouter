@@ -2,25 +2,24 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import {
-  GenerateContentResponse,
-  GenerateImagesResponse,
+  type GenerateContentParameters,
+  type GenerateContentResponse,
+  type GenerateImagesParameters,
+  type GenerateImagesResponse,
   GoogleGenAI,
   MediaResolution,
   Modality,
   PersonGeneration,
-  type GenerateContentParameters,
-  type GenerateImagesParameters,
 } from "@google/genai";
 import { HTTPException } from "hono/http-exception";
 import type {
-  ImageGenStreamEvent,
   ImageGenerateParamsBase,
+  ImageGenStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import type { OpenAIImageGenerationAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { OpenAIImageGenerationAdapter } from "./adapter.js";
 
 export class OpenAIImageGenerationGoogleAdapter
   implements OpenAIImageGenerationAdapter
@@ -36,7 +35,7 @@ export class OpenAIImageGenerationGoogleAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<ImagesResponse> {
     if (request.model?.startsWith("imagen")) {
       return this.sendRequestImagen(provider, request);
@@ -45,9 +44,9 @@ export class OpenAIImageGenerationGoogleAdapter
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: ImageGenerateParamsBase,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: ImageGenerateParamsBase,
+    _options?: {},
   ): Promise<AsyncGenerator<ImageGenStreamEvent>> {
     throw new HTTPException(400, {
       message: "Google does not support streaming",
@@ -162,7 +161,7 @@ export class OpenAIImageGenerationGoogleAdapter
             return;
           }
           return {
-            b64_json: imagePart.inlineData!.data,
+            b64_json: imagePart.inlineData?.data,
           };
         })
         .filter((image) => image !== undefined),

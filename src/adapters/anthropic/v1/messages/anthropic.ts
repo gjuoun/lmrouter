@@ -2,19 +2,18 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import Anthropic from "@anthropic-ai/sdk";
-import { Stream } from "@anthropic-ai/sdk/core/streaming";
+import type { Stream } from "@anthropic-ai/sdk/core/streaming";
 import type {
   Message,
   MessageCreateParamsBase,
   RawMessageStreamEvent,
 } from "@anthropic-ai/sdk/resources/messages";
-
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
 import type {
   AnthropicMessagesAdapter,
   AnthropicMessagesInputOptions,
 } from "./adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export class AnthropicMessagesAnthropicAdapter
   implements AnthropicMessagesAdapter
@@ -32,7 +31,7 @@ export class AnthropicMessagesAnthropicAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: MessageCreateParamsBase,
-    options?: AnthropicMessagesInputOptions,
+    _options?: AnthropicMessagesInputOptions,
   ): Promise<Message> {
     const anthropic = this.getClient(provider);
     const message = await anthropic.messages.create(request);
@@ -53,7 +52,7 @@ export class AnthropicMessagesAnthropicAdapter
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: MessageCreateParamsBase,
-    options?: AnthropicMessagesInputOptions,
+    _options?: AnthropicMessagesInputOptions,
   ): Promise<AsyncGenerator<RawMessageStreamEvent>> {
     const anthropic = this.getClient(provider);
     const stream = await anthropic.messages.create(request);

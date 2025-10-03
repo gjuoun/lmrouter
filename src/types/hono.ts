@@ -2,9 +2,8 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import type { Session, User } from "better-auth";
-
+import type { apiKey } from "../models/billing.js";
 import type { LMRouterConfigModel } from "./config.js";
-import { apiKey } from "../models/billing.js";
 
 export type AuthType = "better-auth" | "api-key" | "access-key" | "byok";
 

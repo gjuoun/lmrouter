@@ -5,12 +5,11 @@ import { eq } from "drizzle-orm";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
 import stripe from "stripe";
-
-import { getConfig } from "./config.js";
-import { getDb } from "./database.js";
 import { user as userModel } from "../models/auth.js";
 import type { LMRouterConfigAuthEnabledBilling } from "../types/config.js";
 import type { AuthBetterAuth, ContextEnv } from "../types/hono.js";
+import { getConfig } from "./config.js";
+import { getDb } from "./database.js";
 
 let stripeCache: StripeClient | null = null;
 

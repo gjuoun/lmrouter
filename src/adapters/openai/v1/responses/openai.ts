@@ -2,19 +2,18 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import OpenAI from "openai";
-import { Stream } from "openai/core/streaming";
+import type { Stream } from "openai/core/streaming";
 import type {
   Response,
   ResponseCreateParamsBase,
   ResponseStreamEvent,
 } from "openai/resources/responses/responses";
-
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
 import type {
   OpenAIResponsesAdapter,
   OpenAIResponsesInputOptions,
 } from "./adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export class OpenAIResponsesOpenAIAdapter implements OpenAIResponsesAdapter {
   usage?: LMRouterApiCallUsage;
@@ -34,7 +33,7 @@ export class OpenAIResponsesOpenAIAdapter implements OpenAIResponsesAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ResponseCreateParamsBase,
-    options?: OpenAIResponsesInputOptions,
+    _options?: OpenAIResponsesInputOptions,
   ): Promise<Response> {
     const openai = this.getClient(provider);
     const response = await openai.responses.create(request);
@@ -60,7 +59,7 @@ export class OpenAIResponsesOpenAIAdapter implements OpenAIResponsesAdapter {
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: ResponseCreateParamsBase,
-    options?: OpenAIResponsesInputOptions,
+    _options?: OpenAIResponsesInputOptions,
   ): Promise<AsyncGenerator<ResponseStreamEvent>> {
     const openai = this.getClient(provider);
     const stream = await openai.responses.create(request);

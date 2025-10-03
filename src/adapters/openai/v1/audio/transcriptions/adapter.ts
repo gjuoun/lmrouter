@@ -6,10 +6,9 @@ import type {
   TranscriptionCreateResponse,
   TranscriptionStreamEvent,
 } from "openai/resources/audio/transcriptions";
-
-import { LMRouterAdapter } from "../../../../adapter.js";
-import { OpenAITranscriptionsOpenAIAdapter } from "./openai.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../../adapter.js";
+import { OpenAITranscriptionsOpenAIAdapter } from "./openai.js";
 
 export type OpenAITranscriptionsAdapter = LMRouterAdapter<
   TranscriptionCreateParamsBase,

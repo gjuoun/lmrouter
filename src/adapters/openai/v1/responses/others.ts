@@ -17,17 +17,16 @@ import type {
   ResponseOutputText,
   ResponseStreamEvent,
 } from "openai/resources/responses/responses";
-
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import {
+  type OpenAIChatCompletionAdapter,
+  OpenAIChatCompletionAdapterFactory,
+} from "../chat/adapter.js";
 import type {
   OpenAIResponsesAdapter,
   OpenAIResponsesInputOptions,
 } from "./adapter.js";
-import {
-  OpenAIChatCompletionAdapterFactory,
-  type OpenAIChatCompletionAdapter,
-} from "../chat/adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
   usage?: LMRouterApiCallUsage;
@@ -380,9 +379,9 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
     request: ResponseCreateParamsBase,
   ): AsyncGenerator<ResponseStreamEvent> {
     enum State {
-      Init,
-      SendingText,
-      SendingToolUse,
+      Init = 0,
+      SendingText = 1,
+      SendingToolUse = 2,
     }
 
     let state = State.Init;
@@ -445,7 +444,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
             role: "assistant" as const,
           },
         };
-        currentResponse!.output.push(outputItemAdded.item);
+        currentResponse?.output.push(outputItemAdded.item);
         yield outputItemAdded;
         const contentPartAdded: ResponseStreamEvent = {
           type: "response.content_part.added" as const,
@@ -461,8 +460,10 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
           },
         };
         (
-          currentResponse!.output[outputIndex] as ResponseOutputMessage
-        ).content.push(contentPartAdded.part as ResponseOutputText | ResponseOutputRefusal);
+          currentResponse?.output[outputIndex] as ResponseOutputMessage
+        ).content.push(
+          contentPartAdded.part as ResponseOutputText | ResponseOutputRefusal,
+        );
         yield contentPartAdded;
       } else if (chunkType === State.SendingToolUse) {
         const outputItemAdded: ResponseStreamEvent = {
@@ -478,7 +479,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
             name: chunk.choices[0].delta.tool_calls?.[0].function?.name ?? "",
           },
         };
-        currentResponse!.output.push(outputItemAdded.item);
+        currentResponse?.output.push(outputItemAdded.item);
         yield outputItemAdded;
       }
     };
@@ -500,7 +501,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
             })) ?? [],
         };
         (
-          (currentResponse!.output[outputIndex] as ResponseOutputMessage)
+          (currentResponse?.output[outputIndex] as ResponseOutputMessage)
             .content[0] as ResponseOutputText
         ).text += outputTextDelta.delta;
         currentResponse!.output_text += outputTextDelta.delta;
@@ -514,14 +515,14 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
         delta: chunk.choices[0].delta.tool_calls?.[0].function?.arguments ?? "",
       };
       (
-        currentResponse!.output[outputIndex] as ResponseFunctionToolCall
+        currentResponse?.output[outputIndex] as ResponseFunctionToolCall
       ).arguments += functionCallArgumentsDelta.delta;
       return functionCallArgumentsDelta;
     };
 
     const responseDones = function* (): Generator<ResponseStreamEvent> {
       if (state === State.SendingText) {
-        const output = currentResponse!.output[
+        const output = currentResponse?.output[
           outputIndex
         ] as ResponseOutputMessage;
         output.status = "completed";
@@ -543,7 +544,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
           part: output.content[0],
         };
       } else if (state === State.SendingToolUse) {
-        const output = currentResponse!.output[
+        const output = currentResponse?.output[
           outputIndex
         ] as ResponseFunctionToolCall;
         output.status = "completed";
@@ -559,7 +560,7 @@ export class OpenAIResponsesOthersAdapter implements OpenAIResponsesAdapter {
         type: "response.output_item.done" as const,
         sequence_number: sequenceNumber++,
         output_index: outputIndex,
-        item: currentResponse!.output[outputIndex],
+        item: currentResponse?.output[outputIndex],
       };
     };
 

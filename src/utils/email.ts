@@ -4,10 +4,9 @@
 import type { User } from "better-auth";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
-
+import type { ContextEnv } from "../types/hono.js";
 import { getConfig } from "./config.js";
 import { getResend } from "./resend.js";
-import type { ContextEnv } from "../types/hono.js";
 
 export const sendVerificationEmail = async (
   user: User,
@@ -26,7 +25,7 @@ export const sendVerificationEmail = async (
     from: cfg.auth.email.from_email,
     to: user.email,
     replyTo: cfg.auth.email.reply_to_email,
-    subject: `Verify Your LMRouter Account`,
+    subject: "Verify Your LMRouter Account",
     html: `<!doctype html>
 <html lang="en" style="margin:0;padding:0;">
   <head>

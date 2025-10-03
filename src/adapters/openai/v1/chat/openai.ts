@@ -2,19 +2,18 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import OpenAI from "openai";
-import { Stream } from "openai/core/streaming";
+import type { Stream } from "openai/core/streaming";
 import type {
   ChatCompletion,
   ChatCompletionChunk,
   ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions";
-
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
 import type {
   OpenAIChatCompletionAdapter,
   OpenAIChatCompletionInputOptions,
 } from "./adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export class OpenAIChatCompletionOpenAIAdapter
   implements OpenAIChatCompletionAdapter
@@ -35,7 +34,7 @@ export class OpenAIChatCompletionOpenAIAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ChatCompletionCreateParamsBase,
-    options?: OpenAIChatCompletionInputOptions,
+    _options?: OpenAIChatCompletionInputOptions,
   ): Promise<ChatCompletion> {
     const openai = this.getClient(provider);
     const completion = await openai.chat.completions.create(request);
@@ -68,7 +67,7 @@ export class OpenAIChatCompletionOpenAIAdapter
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: ChatCompletionCreateParamsBase,
-    options?: OpenAIChatCompletionInputOptions,
+    _options?: OpenAIChatCompletionInputOptions,
   ): Promise<AsyncGenerator<ChatCompletionChunk>> {
     const openai = this.getClient(provider);
     const stream = await openai.chat.completions.create(request);

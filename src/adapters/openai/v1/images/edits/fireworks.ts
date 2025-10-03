@@ -4,12 +4,10 @@
 import { HTTPException } from "hono/http-exception";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type {
-  ImageEditStreamEvent,
   ImageEditParamsBase,
+  ImageEditStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import type { OpenAIImageEditAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
 import type {
@@ -18,6 +16,7 @@ import type {
   FireworksImageGenerationGetFlux1KontextImageRequest,
   FireworksImageGenerationGetFlux1KontextImageResponse,
 } from "../../../../../types/fireworks.js";
+import type { OpenAIImageEditAdapter } from "./adapter.js";
 
 export class OpenAIImageEditFireworksAdapter implements OpenAIImageEditAdapter {
   usage?: LMRouterApiCallUsage;
@@ -25,7 +24,7 @@ export class OpenAIImageEditFireworksAdapter implements OpenAIImageEditAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<ImagesResponse> {
     if (request.output_format && request.output_format !== "png") {
       throw new HTTPException(400, {
@@ -102,9 +101,9 @@ export class OpenAIImageEditFireworksAdapter implements OpenAIImageEditAdapter {
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: ImageEditParamsBase,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: ImageEditParamsBase,
+    _options?: {},
   ): Promise<AsyncGenerator<ImageEditStreamEvent>> {
     throw new HTTPException(400, {
       message: "Fireworks does not support streaming",

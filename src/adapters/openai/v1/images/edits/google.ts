@@ -2,11 +2,11 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import {
-  GenerateContentResponse,
+  type GenerateContentParameters,
+  type GenerateContentResponse,
   GoogleGenAI,
   MediaResolution,
   Modality,
-  type GenerateContentParameters,
 } from "@google/genai";
 import { HTTPException } from "hono/http-exception";
 import type {
@@ -14,10 +14,9 @@ import type {
   ImageEditStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import type { OpenAIImageEditAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { OpenAIImageEditAdapter } from "./adapter.js";
 
 export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
   usage?: LMRouterApiCallUsage;
@@ -25,7 +24,7 @@ export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<ImagesResponse> {
     const ai = new GoogleGenAI({
       apiKey: provider.api_key,
@@ -49,9 +48,9 @@ export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: ImageEditParamsBase,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: ImageEditParamsBase,
+    _options?: {},
   ): Promise<AsyncGenerator<ImageEditStreamEvent>> {
     throw new HTTPException(400, {
       message: "Google does not support streaming",
@@ -105,7 +104,7 @@ export class OpenAIImageEditGoogleAdapter implements OpenAIImageEditAdapter {
             return;
           }
           return {
-            b64_json: imagePart.inlineData!.data,
+            b64_json: imagePart.inlineData?.data,
           };
         })
         .filter((image) => image !== undefined),

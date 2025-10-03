@@ -5,10 +5,9 @@ import type {
   TranslationCreateParams,
   TranslationCreateResponse,
 } from "openai/resources/audio/translations";
-
-import { LMRouterAdapter } from "../../../../adapter.js";
-import { OpenAITranslationsOpenAIAdapter } from "./openai.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../../adapter.js";
+import { OpenAITranslationsOpenAIAdapter } from "./openai.js";
 
 export type OpenAITranslationsAdapter = LMRouterAdapter<
   TranslationCreateParams,

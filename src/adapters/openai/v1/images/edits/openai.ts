@@ -2,16 +2,15 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import OpenAI from "openai";
-import { Stream } from "openai/core/streaming";
+import type { Stream } from "openai/core/streaming";
 import type {
   ImageEditParamsBase,
   ImageEditStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import type { OpenAIImageEditAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { OpenAIImageEditAdapter } from "./adapter.js";
 
 export class OpenAIImageEditOpenAIAdapter implements OpenAIImageEditAdapter {
   usage?: LMRouterApiCallUsage;
@@ -30,7 +29,7 @@ export class OpenAIImageEditOpenAIAdapter implements OpenAIImageEditAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<ImagesResponse> {
     const openai = this.getClient(provider);
     const image = await openai.images.edit(request);
@@ -53,7 +52,7 @@ export class OpenAIImageEditOpenAIAdapter implements OpenAIImageEditAdapter {
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: ImageEditParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<AsyncGenerator<ImageEditStreamEvent>> {
     const openai = this.getClient(provider);
     const stream = await openai.images.edit(request);

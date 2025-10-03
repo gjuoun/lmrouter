@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 LMRouter Contributors
 
+import { Redis } from "@upstash/redis";
 import type { Context } from "hono";
 import type {
   Response,
   ResponseCreateParamsBase,
   ResponseInput,
 } from "openai/resources/responses/responses";
-import { Redis } from "@upstash/redis";
-
-import { getConfig } from "./config.js";
 import type { ContextEnv } from "../types/hono.js";
+import { getConfig } from "./config.js";
 
 interface ResponsesStoreItem {
   request: ResponseCreateParamsBase;
@@ -107,20 +106,20 @@ export class ResponsesStoreFactory {
   private static storeCache: ResponsesStore | null = null;
 
   static getStore(c: Context<ContextEnv>): ResponsesStore {
-    if (!this.storeCache) {
+    if (!ResponsesStoreFactory.storeCache) {
       const cfg = getConfig(c);
       switch (cfg.responses_store.type) {
         case "in_memory":
-          this.storeCache = new InMemoryResponsesStore();
+          ResponsesStoreFactory.storeCache = new InMemoryResponsesStore();
           break;
         case "upstash_redis":
-          this.storeCache = new UpstashRedisResponsesStore(
+          ResponsesStoreFactory.storeCache = new UpstashRedisResponsesStore(
             cfg.responses_store.url,
             cfg.responses_store.token,
           );
           break;
       }
     }
-    return this.storeCache;
+    return ResponsesStoreFactory.storeCache;
   }
 }

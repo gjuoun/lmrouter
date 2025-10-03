@@ -7,9 +7,7 @@ import { jsonb, numeric, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import type { LMRouterLedgerMetadata } from "../types/billing.js";
 
 export const apiKey = pgTable("api_key", {
-  id: text("id")
-    .default(sql`gen_random_uuid()`)
-    .primaryKey(),
+  id: text("id").default(sql`gen_random_uuid()`).primaryKey(),
   ownerType: text("owner_type").notNull(),
   ownerId: text("owner_id").notNull(),
   name: text("name").notNull(),
@@ -23,9 +21,7 @@ export const apiKey = pgTable("api_key", {
 });
 
 export const balance = pgTable("balance", {
-  id: text("id")
-    .default(sql`gen_random_uuid()`)
-    .primaryKey(),
+  id: text("id").default(sql`gen_random_uuid()`).primaryKey(),
   ownerType: text("owner_type").notNull(),
   ownerId: text("owner_id").notNull(),
   balance: numeric("balance", { precision: 21, scale: 9 })
@@ -39,9 +35,7 @@ export const balance = pgTable("balance", {
 });
 
 export const ledger = pgTable("ledger", {
-  id: text("id")
-    .default(sql`gen_random_uuid()`)
-    .primaryKey(),
+  id: text("id").default(sql`gen_random_uuid()`).primaryKey(),
   ownerType: text("owner_type").notNull(),
   ownerId: text("owner_id").notNull(),
   amount: numeric("amount", { precision: 21, scale: 9 }).notNull(),

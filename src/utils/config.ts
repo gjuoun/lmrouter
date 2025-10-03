@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 LMRouter Contributors
 
-import fs from "fs";
+import fs from "node:fs";
 
 import type { Context } from "hono";
 import yaml from "yaml";
@@ -10,10 +10,9 @@ import type { LMRouterConfig } from "../types/config.js";
 import type { ContextEnv } from "../types/hono.js";
 
 let configCache: LMRouterConfig | null = null;
-let configCacheRaw: string | null = null;
+const _configCacheRaw: string | null = null;
 
-
-export const getConfig = (c?: Context<ContextEnv>): LMRouterConfig => {
+export const getConfig = (_c?: Context<ContextEnv>): LMRouterConfig => {
   if (configCache) {
     return configCache;
   }

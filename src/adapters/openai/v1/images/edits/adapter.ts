@@ -6,12 +6,11 @@ import type {
   ImageEditStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import { LMRouterAdapter } from "../../../../adapter.js";
+import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../../adapter.js";
 import { OpenAIImageEditFireworksAdapter } from "./fireworks.js";
 import { OpenAIImageEditGoogleAdapter } from "./google.js";
 import { OpenAIImageEditOpenAIAdapter } from "./openai.js";
-import type { LMRouterConfigProvider } from "../../../../../types/config.js";
 
 export type OpenAIImageEditAdapter = LMRouterAdapter<
   ImageEditParamsBase,

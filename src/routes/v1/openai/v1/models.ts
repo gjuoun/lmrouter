@@ -45,14 +45,18 @@ modelsRouter.get("/:model{.+}", (c) => {
 
 modelsRouter.get("/", (c) => {
   const cfg = getConfig(c);
-  const models: OpenAIModel[] = Object.entries(cfg.models).map(([name, model]) => {
-    return {
-      id: name,
-      object: "model",
-      created: model.created ?? 0,
-      owned_by: model.providers.map((provider) => provider.provider).join(", "),
-    };
-  });
+  const models: OpenAIModel[] = Object.entries(cfg.models).map(
+    ([name, model]) => {
+      return {
+        id: name,
+        object: "model",
+        created: model.created ?? 0,
+        owned_by: model.providers
+          .map((provider) => provider.provider)
+          .join(", "),
+      };
+    },
+  );
 
   return c.json<OpenAIModelListResponse>({
     object: "list",

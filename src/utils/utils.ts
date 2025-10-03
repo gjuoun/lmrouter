@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 LMRouter Contributors
 
+import { getConnInfo as getConnInfoNode } from "@hono/node-server/conninfo";
 import type { Context } from "hono";
 import { getRuntimeKey } from "hono/adapter";
-import { getConnInfo as getConnInfoNode } from "@hono/node-server/conninfo";
-
-import { recordApiCall } from "./billing.js";
-import { TimeKeeper } from "./chrono.js";
-import { getConfig } from "./config.js";
 import type {
   LMRouterConfigModel,
   LMRouterConfigModelProvider,
   LMRouterConfigProvider,
 } from "../types/config.js";
 import type { ContextEnv } from "../types/hono.js";
+import { recordApiCall } from "./billing.js";
+import { TimeKeeper } from "./chrono.js";
+import { getConfig } from "./config.js";
 
 export const getUptime = (): string | undefined => {
   if (getRuntimeKey() === "workerd") {

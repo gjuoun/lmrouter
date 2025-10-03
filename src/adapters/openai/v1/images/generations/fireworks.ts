@@ -4,12 +4,10 @@
 import { HTTPException } from "hono/http-exception";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type {
-  ImageGenStreamEvent,
   ImageGenerateParamsBase,
+  ImageGenStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import type { OpenAIImageGenerationAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
 import type {
@@ -20,6 +18,7 @@ import type {
   FireworksImageGenerationGetFlux1KontextImageRequest,
   FireworksImageGenerationGetFlux1KontextImageResponse,
 } from "../../../../../types/fireworks.js";
+import type { OpenAIImageGenerationAdapter } from "./adapter.js";
 
 export class OpenAIImageGenerationFireworksAdapter
   implements OpenAIImageGenerationAdapter
@@ -29,7 +28,7 @@ export class OpenAIImageGenerationFireworksAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: ImageGenerateParamsBase,
-    options?: {},
+    _options?: {},
   ): Promise<ImagesResponse> {
     if (request.model === "accounts/fireworks/models/flux-1-schnell-fp8") {
       return this.sendRequestFlux1SchnellFp8(provider, request);
@@ -38,9 +37,9 @@ export class OpenAIImageGenerationFireworksAdapter
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: ImageGenerateParamsBase,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: ImageGenerateParamsBase,
+    _options?: {},
   ): Promise<AsyncGenerator<ImageGenStreamEvent>> {
     throw new HTTPException(400, {
       message: "Fireworks does not support streaming",
@@ -188,7 +187,7 @@ export class OpenAIImageGenerationFireworksAdapter
         },
       ],
       output_format: "jpeg" as const,
-      seed: seed ? parseInt(seed) : undefined,
+      seed: seed ? Number.parseInt(seed, 10) : undefined,
     };
   }
 

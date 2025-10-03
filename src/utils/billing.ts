@@ -6,10 +6,7 @@ import { and, eq, sql } from "drizzle-orm";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
 import jsonLogic from "json-logic-js";
-import { Stripe } from "stripe";
-
-import { getConfig } from "./config.js";
-import { getDb } from "./database.js";
+import type { Stripe } from "stripe";
 import { balance, ledger } from "../models/billing.js";
 import type {
   LMRouterApiCallUsage,
@@ -18,6 +15,8 @@ import type {
 } from "../types/billing.js";
 import type { LMRouterConfigModelProviderPricing } from "../types/config.js";
 import type { ContextEnv } from "../types/hono.js";
+import { getConfig } from "./config.js";
+import { getDb } from "./database.js";
 import { getRemoteIp } from "./utils.js";
 
 export const calculateCost = (
@@ -79,7 +78,8 @@ export const calculateCost = (
         .dividedBy(1000000),
     );
     return cost;
-  } else if (pricing.type === "tiered") {
+  }
+  if (pricing.type === "tiered") {
     for (const tier of pricing.tiers) {
       if (!tier.predicate) {
         return calculateCost(usage, tier.pricing);
