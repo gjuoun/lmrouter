@@ -34,3 +34,5 @@ lerna-debug.log*
 CLAUDE.md
 .claude/
 AGENTS.md
+
+docs
