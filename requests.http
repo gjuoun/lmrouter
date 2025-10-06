@@ -13,13 +13,13 @@ GET {{baseUrl}}/
 
 ### OpenAI API Endpoints
 
-### List Available Models (OpenAI)
+### ?List Available Models (OpenAI)
 GET {{baseUrl}}/openai/v1/models
 Authorization: Bearer {{apiKey}}
 
 ###
 
-### Chat Completions (OpenAI)
+### ?Chat Completions (OpenAI)
 POST {{baseUrl}}/openai/v1/chat/completions
 Authorization: Bearer {{apiKey}}
 Content-Type: application/json
@@ -31,20 +31,21 @@ Content-Type: application/json
       "role": "user",
       "content": "Hello! How are you today?"
     }
-  ]
+  ],
+  "stream": true
 }
 
 ###
 
 ### Anthropic API Endpoints
 
-### List Available Models (Anthropic)
+### ?List Available Models (Anthropic)
 GET {{baseUrl}}/anthropic/v1/models
 Authorization: Bearer {{apiKey}}
 
 ###
 
-### Messages (Anthropic)
+### ?Messages (Anthropic)
 POST {{baseUrl}}/anthropic/v1/messages
 Authorization: Bearer {{apiKey}}
 Content-Type: application/json
@@ -58,12 +59,13 @@ anthropic-version: 2023-06-01
       "role": "user",
       "content": "Hello! Can you explain what makes LMRouter special?"
     }
-  ]
+  ],
+  "stream": true
 }
 
 ###
 
-### Streaming Messages (Anthropic)
+### ?Streaming Messages (Anthropic)
 POST {{baseUrl}}/anthropic/v1/messages
 Authorization: Bearer {{apiKey}}
 Content-Type: application/json
@@ -85,31 +87,14 @@ anthropic-version: 2023-06-01
 
 ### V1 API Endpoints
 
-### List All Available Models
+### ?List All Available Models
 GET {{baseUrl}}/v1/models
 Authorization: Bearer {{apiKey}}
 
 ###
 
-### Test with OpenRouter (catch-all model)
-POST {{baseUrl}}/v1/chat/completions
-Authorization: Bearer {{apiKey}}
-Content-Type: application/json
 
-{
-  "model": "meta-llama/llama-3.1-405b-instruct",
-  "messages": [
-    {
-      "role": "user",
-      "content": "Hello! Can you help me understand how API routing works?"
-    }
-  ],
-  "max_tokens": 300
-}
-
-###
-
-### Error Testing - Invalid Model
+### ?Error Testing - Invalid Model
 POST {{baseUrl}}/openai/v1/chat/completions
 Authorization: Bearer {{apiKey}}
 Content-Type: application/json
@@ -126,7 +111,7 @@ Content-Type: application/json
 
 ###
 
-### Error Testing - Invalid API Key
+### ?Error Testing - Invalid API Key
 POST {{baseUrl}}/openai/v1/chat/completions
 Authorization: Bearer invalid-api-key
 Content-Type: application/json
