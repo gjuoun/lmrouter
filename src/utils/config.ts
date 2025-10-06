@@ -17,30 +17,15 @@ export const getConfig = (_c?: Context<ContextEnv>): LMRouterConfig => {
     return configCache;
   }
 
-  const configFromEnv = process.env.LMROUTER_CONFIG;
-  if (configFromEnv) {
-    console.log("Loading config from env...");
-    configCache = yaml.parse(
-      Buffer.from(configFromEnv, "base64").toString("utf8"),
-    ) as LMRouterConfig;
-    return configCache;
+  const configPath = new URL("../../config/config.yaml", import.meta.url).pathname;
+
+  if (!fs.existsSync(configPath)) {
+    throw new Error(`Config file not found at ${configPath}. Please create a config.yaml file.`);
   }
 
-  if (process.argv.length < 3) {
-    console.log("Loading default config...");
-    configCache = yaml.parse(
-      fs.readFileSync(
-        new URL("../../config/config.default.example.yaml", import.meta.url)
-          .pathname,
-        "utf8",
-      ),
-    ) as LMRouterConfig;
-    return configCache;
-  }
-
-  console.log(`Loading config from file "${process.argv[2]}"...`);
+  console.log(`Loading config from file "${configPath}"...`);
   configCache = yaml.parse(
-    fs.readFileSync(process.argv[2], "utf8"),
+    fs.readFileSync(configPath, "utf8"),
   ) as LMRouterConfig;
   return configCache;
 };

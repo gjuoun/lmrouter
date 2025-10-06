@@ -44,7 +44,7 @@ export class OpenAIChatCompletionOpenAIAdapter
         audio_tokens?: number;
       };
     },
-    isStreaming = false
+    isStreaming = false,
   ): LMRouterApiCallUsage {
     return {
       service_tier: service_tier ?? undefined,
@@ -53,6 +53,7 @@ export class OpenAIChatCompletionOpenAIAdapter
         (usage.prompt_tokens_details?.cached_tokens ?? 0) -
         (usage.prompt_tokens_details?.audio_tokens ?? 0),
       input_audio: usage.prompt_tokens_details?.audio_tokens ?? 0,
+      // if streaming, should count for audio tokens
       output: isStreaming
         ? (usage.completion_tokens ?? 0)
         : (usage.completion_tokens ?? 0) -
@@ -73,7 +74,10 @@ export class OpenAIChatCompletionOpenAIAdapter
       request,
     )) as ChatCompletion;
     if (completion.usage) {
-      this.usage = this.calculateUsage(completion.service_tier, completion.usage);
+      this.usage = this.calculateUsage(
+        completion.service_tier,
+        completion.usage,
+      );
     }
     return completion;
   }
@@ -88,7 +92,11 @@ export class OpenAIChatCompletionOpenAIAdapter
     return async function* (this: OpenAIChatCompletionOpenAIAdapter) {
       for await (const chunk of stream as Stream<ChatCompletionChunk>) {
         if (chunk.usage) {
-          this.usage = this.calculateUsage(chunk.service_tier, chunk.usage, true);
+          this.usage = this.calculateUsage(
+            chunk.service_tier,
+            chunk.usage,
+            true,
+          );
         }
         yield chunk;
       }

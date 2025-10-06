@@ -13,8 +13,7 @@ import { getDb } from "../utils/database.js";
 
 export const auth = createMiddleware<ContextEnv>(async (c, next) => {
   const cfg = getConfig(c);
-  const apiKey =
-    c.req.header("Authorization")?.split(" ")[1] ?? c.req.header("x-api-key");
+  const apiKey = c.req.header("Authorization")?.split(" ")[1];
   if (apiKey) {
     if (apiKey.startsWith("BYOK:")) {
       c.set("auth", {
