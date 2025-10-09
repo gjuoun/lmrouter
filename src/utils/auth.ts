@@ -1,20 +1,19 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 LMRouter Contributors
 
-import { betterAuth, type BetterAuthPlugin } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { stripe } from "@better-auth/stripe";
+import { type BetterAuthPlugin, betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { Decimal } from "decimal.js";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
-
+import { balance } from "../models/billing.js";
+import type { ContextEnv } from "../types/hono.js";
 import { handleStripeWebhook, updateBilling } from "./billing.js";
 import { getConfig } from "./config.js";
 import { getDb } from "./database.js";
 import { sendVerificationEmail } from "./email.js";
-import { balance } from "../models/billing.js";
 import { getStripe } from "./stripe.js";
-import type { ContextEnv } from "../types/hono.js";
 
 let authCache: ReturnType<typeof betterAuth> | null = null;
 

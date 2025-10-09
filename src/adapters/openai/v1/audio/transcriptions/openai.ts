@@ -2,7 +2,7 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import OpenAI from "openai";
-import { Stream } from "openai/core/streaming";
+import type { Stream } from "openai/core/streaming";
 import type {
   TranscriptionCreateParamsBase,
   TranscriptionCreateParamsNonStreaming,
@@ -10,11 +10,10 @@ import type {
   TranscriptionCreateResponse,
   TranscriptionStreamEvent,
 } from "openai/resources/audio/transcriptions";
-
-import type { OpenAITranscriptionsAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
 import { getAudioDuration } from "../../../../../utils/audio.js";
+import type { OpenAITranscriptionsAdapter } from "./adapter.js";
 
 export class OpenAITranscriptionsOpenAIAdapter
   implements OpenAITranscriptionsAdapter
@@ -35,7 +34,7 @@ export class OpenAITranscriptionsOpenAIAdapter
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: TranscriptionCreateParamsBase,
-    options?: {},
+    _options?: unknown,
   ): Promise<TranscriptionCreateResponse | string> {
     const openai = this.getClient(provider);
     const transcription = (await openai.audio.transcriptions.create(
@@ -76,7 +75,7 @@ export class OpenAITranscriptionsOpenAIAdapter
   async sendRequestStreaming(
     provider: LMRouterConfigProvider,
     request: TranscriptionCreateParamsBase,
-    options?: {},
+    _options?: unknown,
   ): Promise<AsyncGenerator<TranscriptionStreamEvent>> {
     const openai = this.getClient(provider);
     const transcription = await openai.audio.transcriptions.create(

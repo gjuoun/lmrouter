@@ -4,11 +4,10 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
-
-import { getConfig } from "./config.js";
 import * as authSchema from "../models/auth.js";
 import * as billingSchema from "../models/billing.js";
 import type { ContextEnv } from "../types/hono.js";
+import { getConfig } from "./config.js";
 
 let dbCache: ReturnType<typeof drizzle> | null = null;
 

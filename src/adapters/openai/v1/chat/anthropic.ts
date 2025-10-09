@@ -14,17 +14,16 @@ import type {
   ChatCompletionChunk,
   ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions";
-
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import {
+  type AnthropicMessagesAdapter,
+  AnthropicMessagesAdapterFactory,
+} from "../../../anthropic/v1/messages/adapter.js";
 import type {
   OpenAIChatCompletionAdapter,
   OpenAIChatCompletionInputOptions,
 } from "./adapter.js";
-import {
-  AnthropicMessagesAdapterFactory,
-  type AnthropicMessagesAdapter,
-} from "../../../anthropic/v1/messages/adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export class OpenAIChatCompletionAnthropicAdapter
   implements OpenAIChatCompletionAdapter
@@ -80,7 +79,7 @@ export class OpenAIChatCompletionAnthropicAdapter
           request.max_tokens ??
           maxTokens ??
           8192,
-        maxTokens ?? Infinity,
+        maxTokens ?? Number.POSITIVE_INFINITY,
       ),
       messages: request.messages
         .filter(

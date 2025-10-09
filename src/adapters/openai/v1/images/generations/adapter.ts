@@ -2,20 +2,19 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import type {
-  ImageGenStreamEvent,
   ImageGenerateParamsBase,
+  ImageGenStreamEvent,
   ImagesResponse,
 } from "openai/resources/images";
-
-import { LMRouterAdapter } from "../../../../adapter.js";
+import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../../adapter.js";
 import { OpenAIImageGenerationFireworksAdapter } from "./fireworks.js";
 import { OpenAIImageGenerationGoogleAdapter } from "./google.js";
 import { OpenAIImageGenerationOpenAIAdapter } from "./openai.js";
-import type { LMRouterConfigProvider } from "../../../../../types/config.js";
 
 export type OpenAIImageGenerationAdapter = LMRouterAdapter<
   ImageGenerateParamsBase,
-  {},
+  unknown,
   ImagesResponse,
   ImageGenStreamEvent
 >;

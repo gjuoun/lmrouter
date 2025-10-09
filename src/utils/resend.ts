@@ -4,9 +4,8 @@
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { Resend } from "resend";
-
-import { getConfig } from "./config.js";
 import type { ContextEnv } from "../types/hono.js";
+import { getConfig } from "./config.js";
 
 let resendCache: Resend | null = null;
 

@@ -6,12 +6,11 @@ import type {
   ResponseCreateParamsBase,
   ResponseStreamEvent,
 } from "openai/resources/responses/responses";
-
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import type { ResponsesStore } from "../../../../utils/responses-store.js";
 import { LMRouterAdapter } from "../../../adapter.js";
 import { OpenAIResponsesOpenAIAdapter } from "./openai.js";
 import { OpenAIResponsesOthersAdapter } from "./others.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
-import type { ResponsesStore } from "../../../../utils/responses-store.js";
 
 export interface OpenAIResponsesInputOptions {
   responsesStore: ResponsesStore;

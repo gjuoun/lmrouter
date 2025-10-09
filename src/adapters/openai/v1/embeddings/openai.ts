@@ -7,10 +7,9 @@ import type {
   CreateEmbeddingResponse,
   EmbeddingCreateParams,
 } from "openai/resources/embeddings";
-
-import type { OpenAIEmbeddingsAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import type { OpenAIEmbeddingsAdapter } from "./adapter.js";
 
 export class OpenAIEmbeddingsOpenAIAdapter implements OpenAIEmbeddingsAdapter {
   usage?: LMRouterApiCallUsage;
@@ -18,7 +17,7 @@ export class OpenAIEmbeddingsOpenAIAdapter implements OpenAIEmbeddingsAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: EmbeddingCreateParams,
-    options?: {},
+    _options?: unknown,
   ): Promise<CreateEmbeddingResponse> {
     const openai = new OpenAI({
       baseURL: provider.base_url,
@@ -37,9 +36,9 @@ export class OpenAIEmbeddingsOpenAIAdapter implements OpenAIEmbeddingsAdapter {
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: EmbeddingCreateParams,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: EmbeddingCreateParams,
+    _options?: unknown,
   ): Promise<AsyncGenerator<never>> {
     throw new HTTPException(400, {
       message: "Embeddings API does not support streaming",

@@ -6,11 +6,10 @@ import type {
   MessageCreateParamsBase,
   RawMessageStreamEvent,
 } from "@anthropic-ai/sdk/resources/messages";
-
-import { LMRouterAdapter } from "../../../adapter.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../adapter.js";
 import { AnthropicMessagesAnthropicAdapter } from "./anthropic.js";
 import { AnthropicMessagesOthersAdapter } from "./others.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export interface AnthropicMessagesInputOptions {
   maxTokens?: number;

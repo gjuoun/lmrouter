@@ -2,9 +2,8 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import { Hono } from "hono";
-
-import anthropicV1Router from "./anthropic/v1.js";
 import type { ContextEnv } from "../../types/hono.js";
+import anthropicV1Router from "./anthropic/v1.js";
 
 const anthropicRouter = new Hono<ContextEnv>();
 

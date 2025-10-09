@@ -6,11 +6,10 @@ import type {
   ChatCompletionChunk,
   ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions";
-
-import { LMRouterAdapter } from "../../../adapter.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../adapter.js";
 import { OpenAIChatCompletionAnthropicAdapter } from "./anthropic.js";
 import { OpenAIChatCompletionOpenAIAdapter } from "./openai.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
 
 export interface OpenAIChatCompletionInputOptions {
   maxTokens?: number;

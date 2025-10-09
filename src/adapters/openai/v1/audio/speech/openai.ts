@@ -4,10 +4,9 @@
 import { HTTPException } from "hono/http-exception";
 import OpenAI from "openai";
 import type { SpeechCreateParams } from "openai/resources/audio/speech";
-
-import type { OpenAISpeechAdapter } from "./adapter.js";
 import type { LMRouterApiCallUsage } from "../../../../../types/billing.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { OpenAISpeechAdapter } from "./adapter.js";
 
 export class OpenAISpeechOpenAIAdapter implements OpenAISpeechAdapter {
   usage?: LMRouterApiCallUsage;
@@ -26,7 +25,7 @@ export class OpenAISpeechOpenAIAdapter implements OpenAISpeechAdapter {
   async sendRequest(
     provider: LMRouterConfigProvider,
     request: SpeechCreateParams,
-    options?: {},
+    _options?: unknown,
   ): Promise<Response> {
     const openai = this.getClient(provider);
     const speech = await openai.audio.speech.create(request);
@@ -38,9 +37,9 @@ export class OpenAISpeechOpenAIAdapter implements OpenAISpeechAdapter {
   }
 
   async sendRequestStreaming(
-    provider: LMRouterConfigProvider,
-    request: SpeechCreateParams,
-    options?: {},
+    _provider: LMRouterConfigProvider,
+    _request: SpeechCreateParams,
+    _options?: unknown,
   ): Promise<AsyncGenerator<never>> {
     throw new HTTPException(400, {
       message: "Speech API does not support streaming",

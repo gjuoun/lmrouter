@@ -2,14 +2,13 @@
 // Copyright (c) 2025 LMRouter Contributors
 
 import type { SpeechCreateParams } from "openai/resources/audio/speech";
-
-import { LMRouterAdapter } from "../../../../adapter.js";
-import { OpenAISpeechOpenAIAdapter } from "./openai.js";
 import type { LMRouterConfigProvider } from "../../../../../types/config.js";
+import type { LMRouterAdapter } from "../../../../adapter.js";
+import { OpenAISpeechOpenAIAdapter } from "./openai.js";
 
 export type OpenAISpeechAdapter = LMRouterAdapter<
   SpeechCreateParams,
-  {},
+  unknown,
   Response,
   never
 >;

@@ -17,17 +17,16 @@ import type {
   ChatCompletionCreateParamsBase,
   ChatCompletionMessageParam,
 } from "openai/resources/chat/completions";
-
-import type {
-  AnthropicMessagesAdapter,
-  AnthropicMessagesInputOptions,
-} from "./adapter.js";
+import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
+import type { LMRouterConfigProvider } from "../../../../types/config.js";
 import {
   type OpenAIChatCompletionAdapter,
   OpenAIChatCompletionAdapterFactory,
 } from "../../../openai/v1/chat/adapter.js";
-import type { LMRouterApiCallUsage } from "../../../../types/billing.js";
-import type { LMRouterConfigProvider } from "../../../../types/config.js";
+import type {
+  AnthropicMessagesAdapter,
+  AnthropicMessagesInputOptions,
+} from "./adapter.js";
 
 export class AnthropicMessagesOthersAdapter
   implements AnthropicMessagesAdapter
@@ -283,9 +282,9 @@ export class AnthropicMessagesOthersAdapter
     stream: AsyncGenerator<ChatCompletionChunk>,
   ): AsyncGenerator<RawMessageStreamEvent> {
     enum State {
-      Init,
-      SendingText,
-      SendingToolUse,
+      Init = 0,
+      SendingText = 1,
+      SendingToolUse = 2,
     }
 
     let state = State.Init;

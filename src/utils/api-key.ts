@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 LMRouter Contributors
 
-import { createHash, randomBytes } from "crypto";
+import { createHash, randomBytes } from "node:crypto";
 
 export const generateApiKey = () => {
-  return "sk-lmr-" + randomBytes(32).toString("base64url");
+  return `sk-lmr-${randomBytes(32).toString("base64url")}`;
 };
 
 export const hashApiKey = (apiKey: string) => {

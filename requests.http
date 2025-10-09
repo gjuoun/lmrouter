@@ -1,0 +1,127 @@
+### LMRouter API Requests
+### Based on README.md API compatibility endpoints
+### Server running on http://127.0.0.1:3000
+
+### Variables
+@baseUrl = http://127.0.0.1:3000
+@apiKey = sk-example-key-1
+
+### Health Check
+GET {{baseUrl}}/
+
+###
+
+### OpenAI API Endpoints
+
+### ?List Available Models (OpenAI)
+GET {{baseUrl}}/openai/v1/models
+Authorization: Bearer {{apiKey}}
+
+###
+
+### ?Chat Completions (OpenAI)
+POST {{baseUrl}}/openai/v1/chat/completions
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "model": "openai/gpt-5",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello! How are you today?"
+    }
+  ],
+  "stream": true
+}
+
+###
+
+### Anthropic API Endpoints
+
+### ?List Available Models (Anthropic)
+GET {{baseUrl}}/anthropic/v1/models
+Authorization: Bearer {{apiKey}}
+
+###
+
+### ?Messages (Anthropic)
+POST {{baseUrl}}/anthropic/v1/messages
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+anthropic-version: 2023-06-01
+
+{
+  "model": "anthropic/claude-sonnet-4",
+  "max_tokens": 1024,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello! Can you explain what makes LMRouter special?"
+    }
+  ],
+  "stream": true
+}
+
+###
+
+### ?Streaming Messages (Anthropic)
+POST {{baseUrl}}/anthropic/v1/messages
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+anthropic-version: 2023-06-01
+
+{
+  "model": "anthropic/claude-sonnet-4",
+  "max_tokens": 1024,
+  "stream": true,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Tell me a story about AI."
+    }
+  ]
+}
+
+###
+
+### V1 API Endpoints
+
+### ?List All Available Models
+GET {{baseUrl}}/v1/models
+Authorization: Bearer {{apiKey}}
+
+###
+
+
+### ?Error Testing - Invalid Model
+POST {{baseUrl}}/openai/v1/chat/completions
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "model": "invalid/model-name",
+  "messages": [
+    {
+      "role": "user",
+      "content": "This should fail"
+    }
+  ]
+}
+
+###
+
+### ?Error Testing - Invalid API Key
+POST {{baseUrl}}/openai/v1/chat/completions
+Authorization: Bearer invalid-api-key
+Content-Type: application/json
+
+{
+  "model": "openai/gpt-4o-transcribe",
+  "messages": [
+    {
+      "role": "user",
+      "content": "This should fail due to invalid API key"
+    }
+  ]
+}
