@@ -31,8 +31,8 @@ RUN bun install --frozen-lockfile --production
 # Copy built application
 COPY --from=base /app/dist ./dist
 
-# Copy configuration files
-COPY --from=base /app/config ./config
+# Create config directory for volume mount (do not copy config files)
+RUN mkdir -p config
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
